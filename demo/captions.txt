@@ -11,3 +11,63 @@ Caption: BREAKING: The Supreme Court has unanimously overturned a Colorado court
 
 demo4_real.mp4  (ground truth: REAL)
 Caption: Aerial video shows a Target store in West Virginia breaking apart as a road collapses.  Target is offering to cover relocation costs for residents who have to move.  #westvirginia #targettok #target #viralvideo #dronevideo
+
+demo5_fake.mp4  (ground truth: FAKE)
+Caption: tell me what you think #michaeljackson #mjisalive #michaeljacksonisalive #michaeljacksonchallenge #viralvideo #viralvideos #internetbroke
+
+demo6_real.mp4  (ground truth: REAL)
+Caption: Flight attendants and passengers stepped in to break up a mid-flight fight on a @Southwest Airlines plane that took off from Oakland to Kauai Monday. When it landed in Hawaii, both men involved in the unclear disagreement were detained. #fight #fighting #flight #oakland #kauai #passengers #passenger #flightattendant #flightattendants #southwest #southwestairlines #plane #airplane #hawaii #news #fyp #foryoupage #abc7news
+
+demo7_fake.mp4  (ground truth: FAKE)
+Caption: Moon hit by asteroid CAUGHT ON CAMERA 1.29.2024
+
+demo8_real.mp4  (ground truth: REAL)
+Caption: Joe Biden makes a campaign stop today in Minnesota at a beer brewery here is part of his speech #BidenSpeech #BidenToday #BidenCampaignStop #BidenCampaign #Biden2024 #JoeBiden2024 #ReelectJoeBiden #4MoreYearsBiden #breakingnewsbiden
+
+demo9_fake.mp4  (ground truth: FAKE)
+Caption: The future is here im long #amazon #amzn $amzn sell those puts
+
+demo10_real.mp4  (ground truth: REAL)
+Caption: Florida Gov. Ron DeSantis announced he is ending his campaign ahead of the New Hampshire Republican primary, placing his support to Donald Trump in the 2024 presidential election. #trump #trump2024 #rondesantis #donaldtrump #presidentialelection #GOP #republican #conservative
+
+demo11_fake.mp4  (ground truth: FAKE)
+Caption: Dog Attacked by Ghost？ 🐕👻 #Shorts
+
+demo12_real.mp4  (ground truth: REAL)
+Caption: Putin 'must be held accountable for what he has done' says Ukrainian President Volodymyr Zelenskyy after Russian prison service said that opposition leader Alexei Navalny had died. #navalny #alexeinavalny #russia #putin #zelenskyy #c4news
+
+demo13_fake.mp4  (ground truth: FAKE)
+Caption: #fishwithhumanface #nightmarefuel #horror #short #scarytiktoks
+
+demo14_real.mp4  (ground truth: REAL)
+Caption: EXCLUSIVE: A mid-air emergency over the Southland as a private jet carrying Grammy-winning artist Karol G and her entourage is forced to make an emergency landing after a report of smoke in the cockpit. Other passengers can be seen hugging the star on the Van Nuys tarmac after the frightful flight. Eyewitness News is live with the tense moments. Tonight at 11 from ABC7.
+
+demo15_fake.mp4  (ground truth: FAKE)
+Caption: Bet there’s a ufo in that shi #NopeMovie @Monkeypawproductions
+
+demo16_real.mp4  (ground truth: REAL)
+Caption: 🌋 Canadian tourist Marc Gibbons was visiting Iceland with his wife when a volcanic eruption spraying streams of lava up to 260 feet into the air scrapped their vacation to the Blue Lagoon. 🔗 Read more at our link in bio. #Reuters #video #news #Iceland #volcano #Icelandvolcano #eruption #BlueLagoon #emergency #evacuation
+
+demo17_fake.mp4  (ground truth: FAKE)
+Caption: #worldwar3 #tiktok #fyp #alexapredictsthefuture
+
+demo18_real.mp4  (ground truth: REAL)
+Caption: Vice President Kamala Harris calls for "an immediate ceasefire" in the Israel-Hamas war during a speech in Selma, Alabama. #politicaltiktok #politicstiktok #politics #newstiktok #news #biden #kamalaharris
+
+demo19_fake.mp4  (ground truth: FAKE)
+Caption: Strange fish #weird #strange #cryptid #scary #lake #ocean #short #trending
+
+demo20_real.mp4  (ground truth: REAL)
+Caption: King Abdullah II of Jordan was loud and clear with US President Joe Biden when they met at the White House yesterday: we need peace in the Middle East and the only solution is a ceasefire between Israel and Gaza, and an independent Palestine. “Your leadership, my dear friend, Mr. President, is key to addressing this conflict,” King Abdullah said. “And Jordan is ready to work, as always, with you towards peace.” The Jordanian King added: “We cannot afford an Israeli attack on Rafah. It is certain to produce another humanitarian catastrophe. The situation is already unbearable for over a million people who have been pushed into Rafah since the war started.” King Abdullah called for “a lasting ceasefire now” and said “This war must end.” In his remarks, the King explained: “All attacks against innocent civilians — women and children — including those of October 7th, cannot be accepted by any Muslim, as I have previously stressed.“ The King said there’s only one solution: “We must together, along with Arab partners and the international community, step up efforts to reach a ceasefire in Gaza and immediately start working to create a political horizon that leads to a just and comprehensive peace on the basis of the two-state solution — an independent, sovereign, and viable Palestinian state with East Jerusalem as its capital but living side by side with Israel in peace and security. This is the only solution that will guarantee peace and security for the Palestinians and the Israelis, as well as the entire region.” #jordan #digitaldiplomacy
+
+demo21_fake.mp4  (ground truth: FAKE)
+Caption: Which sport do you think is the worst in the USA? #listentothis #weneedtochange #Openyoureyes #itstimetochange #watchtillend #stopthismadness #uscongress #republican #democratic #liberal #independent #YourVoiceMatters
+
+demo22_real.mp4  (ground truth: REAL)
+Caption: Malaysia supports reopening of MH370 search, 10 years after disappearance #newsph #untvnewsandrescue #untv
+
+demo23_fake.mp4  (ground truth: FAKE)
+Caption: Lake Samsara in the Karanji Region with the homo-piscis the Human Faced Fish, #lakesamsara #homopiscis #fishwithface #humanfacedfish
+
+demo24_real.mp4  (ground truth: REAL)
+Caption: High-tech #takeout delivery in Shenzhen's CBD: Watch a drone deliver delicious meals to your doorstep. 🚀🍜#ChineseModernization #China #tech #cool
