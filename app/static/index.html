@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VeriFrame · Multimodal Fake Video Detector</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+<header>
+  <div class="brand"><span class="logo">◉</span> VeriFrame <small>Text + Video Fake News Detector</small></div>
+  <nav>
+    <button class="tab active" data-tab="analyze">Analyze</button>
+    <button class="tab" data-tab="model">Model Card</button>
+  </nav>
+</header>
+
+<main>
+<!-- ============ ANALYZE ============ -->
+<section id="analyze" class="page active">
+  <div class="grid two">
+    <div class="card">
+      <h2>1 · Upload a short video</h2>
+      <label id="drop" class="drop">
+        <input type="file" id="file" accept="video/*" hidden />
+        <div id="dropText">Drag & drop a video here, or <u>browse</u><br><small>mp4 / mov / webm · best under 3 minutes</small></div>
+        <video id="preview" controls hidden></video>
+      </label>
+      <h2>2 · Caption / description</h2>
+      <textarea id="caption" rows="4" placeholder="Paste the post's caption, e.g. 'BREAKING: shark swimming on the highway after the hurricane #news #viral'"></textarea>
+      <label class="check"><input type="checkbox" id="verified" /> Publisher account is verified</label>
+      <button id="go" class="primary" disabled>Analyze video</button>
+      <div id="status" class="status"></div>
+    </div>
+
+    <div class="card verdict-card" id="verdictCard">
+      <h2>Verdict</h2>
+      <div class="empty" id="emptyState">Upload a video and caption to see the ensemble's verdict, why it decided that, and every signal it used.</div>
+      <div id="verdictBody" hidden>
+        <div class="gauge-wrap">
+          <canvas id="gauge" width="260" height="260"></canvas>
+          <div class="gauge-label"><div id="verdict" class="verdict">—</div><div id="prob" class="prob"></div></div>
+        </div>
+        <p id="summary" class="summary"></p>
+        <h3>Model votes</h3>
+        <canvas id="modelChart" height="170"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div id="details" hidden>
+    <div class="grid two">
+      <div class="card">
+        <h2>Why: evidence by modality</h2>
+        <p class="hint">Positive pushes toward <b class="fake">FAKE</b>, negative toward <b class="real">REAL</b> (LightGBM SHAP contributions).</p>
+        <canvas id="modalityChart" height="200"></canvas>
+      </div>
+      <div class="card">
+        <h2>Strongest interpretable signals</h2>
+        <table id="signals"></table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Frame-by-frame: text ↔ video consistency</h2>
+      <p class="hint">CLIP similarity between the caption and each sampled frame, plus where the fusion network's text-to-video attention looked.</p>
+      <div id="frames" class="frames"></div>
+    </div>
+
+    <div class="grid three">
+      <div class="card"><h2>Video & editing</h2><table id="vstats"></table></div>
+      <div class="card"><h2>Caption style</h2><table id="tstats"></table></div>
+      <div class="card"><h2>Cross-modal</h2><table id="cstats"></table></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MODEL CARD ============ -->
+<section id="model" class="page">
+  <div class="grid two">
+    <div class="card">
+      <h2>Test-set performance</h2>
+      <p class="hint">FakeTT (ACM MM 2024), English TikTok fact-checked news videos. Temporal split: trained on older videos, tested on the newest ones.</p>
+      <table id="metricsTable" class="metrics"></table>
+    </div>
+    <div class="card">
+      <h2>Confusion matrix (ensemble, test)</h2>
+      <div id="cm" class="cm"></div>
+      <h2 style="margin-top:24px">What the model relies on</h2>
+      <canvas id="groupChart" height="200"></canvas>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Architecture</h2>
+    <ol class="arch">
+      <li><b>Video:</b> 8 uniformly sampled frames → CLIP ViT-B/32 embeddings, plus editing statistics (shot cuts, motion, duration, resolution, sharpness).</li>
+      <li><b>Text:</b> caption → CLIP text embedding + MiniLM sentence embedding + style features (hashtags, caps, clickbait words, emojis).</li>
+      <li><b>Cross-modal:</b> per-frame caption-frame CLIP similarity, temporal embedding drift, element-wise text×video interaction.</li>
+      <li><b>Models:</b> Logistic Regression, RBF-SVM, LightGBM, XGBoost and a Cross-Modal Attention Fusion Transformer (text↔frame co-attention, 5-seed average).</li>
+      <li><b>Ensemble:</b> weighted soft-vote; weights and decision threshold tuned on the validation split for macro-F1.</li>
+    </ol>
+  </div>
+</section>
+</main>
+
+<footer>VeriFrame · research prototype · predictions are probabilistic and should not be treated as fact-checks.</footer>
+<script src="/static/app.js"></script>
+</body>
+</html>

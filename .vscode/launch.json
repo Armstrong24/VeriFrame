@@ -1,0 +1,9 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {"name": "Run dashboard", "type": "debugpy", "request": "launch", "module": "uvicorn",
+     "args": ["app.server:app", "--port", "8000"], "cwd": "${workspaceFolder}", "justMyCode": true},
+    {"name": "Retrain models", "type": "debugpy", "request": "launch",
+     "program": "${workspaceFolder}/scripts/03_train.py", "cwd": "${workspaceFolder}"}
+  ]
+}

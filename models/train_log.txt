@@ -1,0 +1,17 @@
+samples: train 962  val 171  test 166  (fake ratio 0.57)
+logreg     val AUC 0.868  test AUC 0.935
+svm        val AUC 0.892  test AUC 0.939
+lightgbm   val AUC 0.918  test AUC 0.910
+xgboost    val AUC 0.903  test AUC 0.913
+fusion best epoch -> 15
+fusion_net val AUC 0.909  test AUC 0.937
+
+TEST results (temporal split):
+  logreg      acc 0.849  macroF1 0.828  AUC 0.935
+  svm         acc 0.807  macroF1 0.790  AUC 0.939
+  lightgbm    acc 0.801  macroF1 0.780  AUC 0.910
+  xgboost     acc 0.789  macroF1 0.771  AUC 0.913
+  fusion_net  acc 0.801  macroF1 0.780  AUC 0.937
+  ENSEMBLE    acc 0.843  macroF1 0.820  AUC 0.938
+weights {'logreg': np.float64(0.0), 'svm': np.float64(0.222), 'lightgbm': np.float64(0.333), 'xgboost': np.float64(0.111), 'fusion_net': np.float64(0.333)} threshold 0.6800000000000004
+saved models -> /workspace/work/kit/models

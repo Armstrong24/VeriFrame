@@ -1,0 +1,67 @@
+{
+  "test_metrics": {
+    "logreg": {
+      "accuracy": 0.8493975903614458,
+      "macro_f1": 0.8276220145379023,
+      "auc": 0.934963768115942,
+      "precision_fake": 0.6721311475409836,
+      "recall_fake": 0.8913043478260869
+    },
+    "svm": {
+      "accuracy": 0.8072289156626506,
+      "macro_f1": 0.7896404245208299,
+      "auc": 0.9385869565217391,
+      "precision_fake": 0.5972222222222222,
+      "recall_fake": 0.9347826086956522
+    },
+    "lightgbm": {
+      "accuracy": 0.8012048192771084,
+      "macro_f1": 0.7804848727709878,
+      "auc": 0.9097826086956522,
+      "precision_fake": 0.5942028985507246,
+      "recall_fake": 0.8913043478260869
+    },
+    "xgboost": {
+      "accuracy": 0.7710843373493976,
+      "macro_f1": 0.7501980041184857,
+      "auc": 0.9059782608695652,
+      "precision_fake": 0.5555555555555556,
+      "recall_fake": 0.8695652173913043
+    },
+    "fusion_net": {
+      "accuracy": 0.8554216867469879,
+      "macro_f1": 0.8336951076974453,
+      "auc": 0.942391304347826,
+      "precision_fake": 0.6833333333333333,
+      "recall_fake": 0.8913043478260869
+    },
+    "ENSEMBLE": {
+      "accuracy": 0.8373493975903614,
+      "macro_f1": 0.8119572057898049,
+      "auc": 0.9333333333333333,
+      "precision_fake": 0.6610169491525424,
+      "recall_fake": 0.8478260869565217
+    }
+  },
+  "confusion_matrix_test": [
+    [
+      100,
+      20
+    ],
+    [
+      7,
+      39
+    ]
+  ],
+  "feature_group_importance_pct": {
+    "Caption meaning (text)": 45.7,
+    "Visual content (CLIP frames)": 34.2,
+    "Text-video consistency": 17.9,
+    "Publisher": 1.4,
+    "Editing & video stats": 0.4,
+    "Caption style": 0.4
+  },
+  "n_train": 962,
+  "n_val": 171,
+  "n_test": 166
+}

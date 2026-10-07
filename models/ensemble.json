@@ -1,0 +1,15 @@
+{
+  "weights": {
+    "logreg": 0.0,
+    "svm": 0.2,
+    "lightgbm": 0.4,
+    "xgboost": 0.2,
+    "fusion_net": 0.2
+  },
+  "threshold": 0.6800000000000004,
+  "seeds": [
+    0,
+    1,
+    2
+  ]
+}

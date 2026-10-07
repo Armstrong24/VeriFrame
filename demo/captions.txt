@@ -1,0 +1,13 @@
+Demo videos from the FakeTT TEST split (never seen in training). Paste the caption into the dashboard.
+
+demo1_fake.mp4  (ground truth: FAKE)
+Caption: Scary #fyp #moon #astroid #scary #bad #fypage
+
+demo2_fake.mp4  (ground truth: FAKE)
+Caption: Trust issue level 1000 #putin #kim #funny #trust #relatable #fyp #viral
+
+demo3_real.mp4  (ground truth: REAL)
+Caption: BREAKING: The Supreme Court has unanimously overturned a Colorado court’s ruling that barred Donald Trump from the state’s primary ballot. #news #colorado #election
+
+demo4_real.mp4  (ground truth: REAL)
+Caption: Aerial video shows a Target store in West Virginia breaking apart as a road collapses.  Target is offering to cover relocation costs for residents who have to move.  #westvirginia #targettok #target #viralvideo #dronevideo
