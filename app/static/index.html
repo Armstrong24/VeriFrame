@@ -9,7 +9,7 @@
 </head>
 <body>
 <header>
-  <div class="brand"><span class="logo">◉</span> VeriFrame <small>Text + Video Fake News Detector</small></div>
+  <div class="brand"><span class="logo">◉</span> VeriFrame <small>Video + Audio + Speech + Text Fake News Detector · v2</small></div>
   <nav>
     <button class="tab active" data-tab="analyze">Analyze</button>
     <button class="tab" data-tab="model">Model Card</button>
@@ -27,8 +27,9 @@
         <div id="dropText">Drag & drop a video here, or <u>browse</u><br><small>mp4 / mov / webm · best under 3 minutes</small></div>
         <video id="preview" controls hidden></video>
       </label>
-      <h2>2 · Caption / description</h2>
+      <h2>2 · Caption / description <small class="hint">(optional: leave empty for <b>video-only</b> mode)</small></h2>
       <textarea id="caption" rows="4" placeholder="Paste the post's caption, e.g. 'BREAKING: shark swimming on the highway after the hurricane #news #viral'"></textarea>
+      <input id="bio" class="bio v2only" placeholder="Publisher bio (optional), e.g. 'Daily news from around the world'" />
       <label class="check"><input type="checkbox" id="verified" /> Publisher account is verified</label>
       <button id="go" class="primary" disabled>Analyze video</button>
       <div id="status" class="status"></div>
@@ -36,7 +37,7 @@
 
     <div class="card verdict-card" id="verdictCard">
       <h2>Verdict</h2>
-      <div class="empty" id="emptyState">Upload a video and caption to see the ensemble's verdict, why it decided that, and every signal it used.</div>
+      <div class="empty" id="emptyState">Upload a video (caption optional) to see the ensemble's verdict, why it decided that, and every signal it used.</div>
       <div id="verdictBody" hidden>
         <div class="gauge-wrap">
           <canvas id="gauge" width="260" height="260"></canvas>
@@ -63,13 +64,15 @@
     </div>
 
     <div class="card">
-      <h2>Frame-by-frame: text ↔ video consistency</h2>
-      <p class="hint">CLIP similarity between the caption and each sampled frame, plus where the fusion network's text-to-video attention looked.</p>
+      <h2>Frame-by-frame consistency</h2>
+      <p class="hint">CLIP similarity of each sampled frame with the caption (blue)<span class="v2only"> and with what is <b>said</b> in the video (purple, from the Whisper transcript)</span>.</p>
       <div id="frames" class="frames"></div>
     </div>
 
+    <div class="card" id="transcriptCard"><h2>What is said in the video (Whisper transcript)</h2><p id="transcript" class="summary"></p></div>
     <div class="grid three">
       <div class="card"><h2>Video & editing</h2><table id="vstats"></table></div>
+      <div class="card v2only"><h2>Audio & speech</h2><table id="astats"></table></div>
       <div class="card"><h2>Caption style</h2><table id="tstats"></table></div>
       <div class="card"><h2>Cross-modal</h2><table id="cstats"></table></div>
     </div>
@@ -80,7 +83,7 @@
 <section id="model" class="page">
   <div class="grid two">
     <div class="card">
-      <h2>Test-set performance</h2>
+      <h2>Test-set performance <select id="modeSel"><option value="full">Full (with caption)</option><option value="video_only">Video-only (no text)</option></select></h2>
       <p class="hint">FakeTT (ACM MM 2024), English TikTok fact-checked news videos. Temporal split: trained on older videos, tested on the newest ones.</p>
       <table id="metricsTable" class="metrics"></table>
     </div>
@@ -94,10 +97,15 @@
   <div class="card">
     <h2>Architecture</h2>
     <ol class="arch">
+      <li class="v1plus"><b>v1+ Training:</b> same 1,299 videos and features as v1; regularisation picked on validation, block-wise late fusion (one model per modality + meta-learner) and a fusion transformer whose caption token can be masked, giving a true <b>video-only mode</b> when the caption is empty.</li>
+      <li class="v2only"><b>v2 Speech:</b> Whisper base.en transcript of the narration → CLIP + MiniLM embeddings.</li>
+      <li class="v2only"><b>v2 Audio:</b> CLAP embedding of the soundtrack + loudness, speech ratio and zero-shot audio-type scores (speech / music / broadcast / crowd / silence).</li>
+      <li class="v2only"><b>v2 Consistency:</b> caption↔speech, speech↔frame and caption↔audio agreement scores; missing modalities are flagged, not guessed.</li>
+      <li class="v2only"><b>v2 CGTF:</b> Consistency-Guided Tri-Modal Fusion transformer over frame, caption, speech, audio and bio tokens with modality dropout, so one network also works with <b>no caption</b>.</li>
       <li><b>Video:</b> 8 uniformly sampled frames → CLIP ViT-B/32 embeddings, plus editing statistics (shot cuts, motion, duration, resolution, sharpness).</li>
       <li><b>Text:</b> caption → CLIP text embedding + MiniLM sentence embedding + style features (hashtags, caps, clickbait words, emojis).</li>
       <li><b>Cross-modal:</b> per-frame caption-frame CLIP similarity, temporal embedding drift, element-wise text×video interaction.</li>
-      <li><b>Models:</b> Logistic Regression, RBF-SVM, LightGBM, XGBoost and a Cross-Modal Attention Fusion Transformer (text↔frame co-attention, 5-seed average).</li>
+      <li><b>Models:</b> Logistic Regression, RBF-SVM, LightGBM, XGBoost and the CGTF network (5-seed average).</li>
       <li><b>Ensemble:</b> weighted soft-vote; weights and decision threshold tuned on the validation split for macro-F1.</li>
     </ol>
   </div>

@@ -1,0 +1,270 @@
+{
+  "results": {
+    "A_full": {
+      "logreg": {
+        "accuracy": 78.9,
+        "macro_f1": 76.9,
+        "auc": 0.904
+      },
+      "svm": {
+        "accuracy": 85.5,
+        "macro_f1": 83.0,
+        "auc": 0.928
+      },
+      "lightgbm": {
+        "accuracy": 83.7,
+        "macro_f1": 81.2,
+        "auc": 0.917
+      },
+      "xgboost": {
+        "accuracy": 85.5,
+        "macro_f1": 82.2,
+        "auc": 0.911
+      },
+      "block_stack": {
+        "accuracy": 82.5,
+        "macro_f1": 79.6,
+        "auc": 0.914
+      },
+      "fusion_cgtf": {
+        "accuracy": 81.3,
+        "macro_f1": 79.0,
+        "auc": 0.938
+      },
+      "ENSEMBLE (val-tuned weights)": {
+        "accuracy": 86.1,
+        "macro_f1": 83.4,
+        "auc": 0.932
+      },
+      "ENSEMBLE (equal average)": {
+        "accuracy": 81.3,
+        "macro_f1": 79.5,
+        "auc": 0.93
+      },
+      "_val_ensemble": {
+        "accuracy": 84.8,
+        "macro_f1": 84.8,
+        "auc": 0.905
+      }
+    },
+    "A_video": {
+      "logreg": {
+        "accuracy": 75.9,
+        "macro_f1": 72.8,
+        "auc": 0.84
+      },
+      "svm": {
+        "accuracy": 75.9,
+        "macro_f1": 73.3,
+        "auc": 0.843
+      },
+      "lightgbm": {
+        "accuracy": 80.1,
+        "macro_f1": 75.0,
+        "auc": 0.859
+      },
+      "xgboost": {
+        "accuracy": 75.3,
+        "macro_f1": 72.5,
+        "auc": 0.854
+      },
+      "block_stack": {
+        "accuracy": 74.7,
+        "macro_f1": 72.2,
+        "auc": 0.842
+      },
+      "fusion_cgtf": {
+        "accuracy": 79.5,
+        "macro_f1": 75.9,
+        "auc": 0.885
+      },
+      "ENSEMBLE (val-tuned weights)": {
+        "accuracy": 79.5,
+        "macro_f1": 75.9,
+        "auc": 0.885
+      },
+      "ENSEMBLE (equal average)": {
+        "accuracy": 78.3,
+        "macro_f1": 75.5,
+        "auc": 0.874
+      },
+      "_val_ensemble": {
+        "accuracy": 81.9,
+        "macro_f1": 81.9,
+        "auc": 0.865
+      }
+    },
+    "B_full": {
+      "logreg": {
+        "accuracy": 79.5,
+        "macro_f1": 77.8,
+        "auc": 0.921
+      },
+      "svm": {
+        "accuracy": 84.3,
+        "macro_f1": 82.3,
+        "auc": 0.927
+      },
+      "lightgbm": {
+        "accuracy": 81.9,
+        "macro_f1": 79.0,
+        "auc": 0.905
+      },
+      "xgboost": {
+        "accuracy": 82.5,
+        "macro_f1": 78.3,
+        "auc": 0.897
+      },
+      "block_stack": {
+        "accuracy": 85.5,
+        "macro_f1": 82.2,
+        "auc": 0.924
+      },
+      "fusion_cgtf": {
+        "accuracy": 85.5,
+        "macro_f1": 83.2,
+        "auc": 0.938
+      },
+      "ENSEMBLE (val-tuned weights)": {
+        "accuracy": 86.1,
+        "macro_f1": 83.6,
+        "auc": 0.934
+      },
+      "ENSEMBLE (equal average)": {
+        "accuracy": 84.9,
+        "macro_f1": 80.2,
+        "auc": 0.928
+      },
+      "_val_ensemble": {
+        "accuracy": 87.1,
+        "macro_f1": 87.1,
+        "auc": 0.929
+      }
+    },
+    "B_video": {
+      "logreg": {
+        "accuracy": 80.1,
+        "macro_f1": 77.2,
+        "auc": 0.894
+      },
+      "svm": {
+        "accuracy": 80.7,
+        "macro_f1": 76.8,
+        "auc": 0.868
+      },
+      "lightgbm": {
+        "accuracy": 81.3,
+        "macro_f1": 76.2,
+        "auc": 0.862
+      },
+      "xgboost": {
+        "accuracy": 81.3,
+        "macro_f1": 75.9,
+        "auc": 0.865
+      },
+      "block_stack": {
+        "accuracy": 79.5,
+        "macro_f1": 76.2,
+        "auc": 0.874
+      },
+      "fusion_cgtf": {
+        "accuracy": 80.7,
+        "macro_f1": 77.1,
+        "auc": 0.88
+      },
+      "ENSEMBLE (val-tuned weights)": {
+        "accuracy": 79.5,
+        "macro_f1": 75.4,
+        "auc": 0.885
+      },
+      "ENSEMBLE (equal average)": {
+        "accuracy": 79.5,
+        "macro_f1": 75.7,
+        "auc": 0.89
+      },
+      "_val_ensemble": {
+        "accuracy": 84.2,
+        "macro_f1": 84.2,
+        "auc": 0.901
+      }
+    }
+  },
+  "info": {
+    "A_full": {
+      "logreg_C": 0.03,
+      "svm_C": 2,
+      "block_weights": {
+        "vis": 0.68,
+        "vstat": -0.13,
+        "cap": 0.65
+      },
+      "weights": {
+        "logreg": 0.0,
+        "svm": 0.0,
+        "lightgbm": 0.25,
+        "xgboost": 0.0,
+        "block_stack": 0.25,
+        "fusion_cgtf": 0.5
+      },
+      "threshold": 0.7000000000000004
+    },
+    "A_video": {
+      "logreg_C": 0.003,
+      "svm_C": 4,
+      "block_weights": {
+        "vis": 1.08,
+        "vstat": -0.26
+      },
+      "weights": {
+        "logreg": 0.0,
+        "svm": 0.0,
+        "lightgbm": 0.0,
+        "xgboost": 0.0,
+        "block_stack": 0.0,
+        "fusion_cgtf": 1.0
+      },
+      "threshold": 0.4200000000000001
+    },
+    "B_full": {
+      "logreg_C": 0.003,
+      "svm_C": 2,
+      "block_weights": {
+        "vis": 0.48,
+        "vstat": -0.23,
+        "cap": 0.57,
+        "sp": 0.37,
+        "aud": 0.28,
+        "bio": 0.32
+      },
+      "weights": {
+        "logreg": 0.0,
+        "svm": 0.5,
+        "lightgbm": 0.0,
+        "xgboost": 0.25,
+        "block_stack": 0.0,
+        "fusion_cgtf": 0.25
+      },
+      "threshold": 0.7000000000000004
+    },
+    "B_video": {
+      "logreg_C": 0.003,
+      "svm_C": 4,
+      "block_weights": {
+        "vis": 0.76,
+        "vstat": -0.41,
+        "sp": 0.63,
+        "aud": 0.34
+      },
+      "weights": {
+        "logreg": 0.0,
+        "svm": 0.333,
+        "lightgbm": 0.167,
+        "xgboost": 0.167,
+        "block_stack": 0.0,
+        "fusion_cgtf": 0.333
+      },
+      "threshold": 0.6000000000000003
+    }
+  },
+  "note": "v1 videos only (1,299), v1 split; thresholds/weights tuned on val"
+}

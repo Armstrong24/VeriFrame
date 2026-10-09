@@ -1,0 +1,35 @@
+{
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "modes": {
+    "full": {
+      "weights": {
+        "logreg": 0.0,
+        "svm": 0.2,
+        "lightgbm": 0.2,
+        "xgboost": 0.0,
+        "block_stack": 0.2,
+        "fusion_cgtf": 0.4
+      },
+      "threshold": 0.6800000000000004,
+      "logreg_C": 0.03,
+      "svm_C": 2
+    },
+    "video_only": {
+      "weights": {
+        "logreg": 0.0,
+        "svm": 0.0,
+        "lightgbm": 0.0,
+        "xgboost": 0.0,
+        "block_stack": 0.0,
+        "fusion_cgtf": 1.0
+      },
+      "threshold": 0.6800000000000004,
+      "logreg_C": 0.003,
+      "svm_C": 4
+    }
+  }
+}

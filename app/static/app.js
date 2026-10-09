@@ -24,7 +24,7 @@ drop.addEventListener("drop", e => setFile(e.dataTransfer.files[0]));
 // ---------- helpers
 const pretty = k => k.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
 const fmt = v => Math.abs(v) >= 100 ? v.toFixed(0) : Math.abs(v) >= 10 ? v.toFixed(1) : v.toFixed(3);
-const MODEL_NAMES = { logreg: "Logistic Reg.", svm: "SVM (RBF)", lightgbm: "LightGBM", xgboost: "XGBoost", fusion_net: "Fusion Transformer" };
+const MODEL_NAMES = { logreg: "Logistic Reg.", svm: "SVM (RBF)", lightgbm: "LightGBM", xgboost: "XGBoost", fusion_net: "Fusion Transformer", cgtf: "CGTF (tri-modal)", fusion_cgtf: "Fusion Transformer (CGTF)", block_stack: "Block-wise late fusion" };
 function table(el, obj) {
   $(el).innerHTML = Object.entries(obj).map(([k, v]) => `<tr><td>${pretty(k)}</td><td>${fmt(v)}</td></tr>`).join("");
 }
@@ -42,8 +42,8 @@ function gauge(p, thr) {
 // ---------- analyze
 $("#go").onclick = async () => {
   const fd = new FormData();
-  fd.append("video", file); fd.append("caption", $("#caption").value); fd.append("verified", $("#verified").checked ? 1 : 0);
-  $("#go").disabled = true; $("#status").innerHTML = '<span class="spinner"></span>Extracting frames, running CLIP and 5 models…';
+  fd.append("video", file); fd.append("caption", $("#caption").value); fd.append("verified", $("#verified").checked ? 1 : 0); fd.append("bio", $("#bio").value);
+  $("#go").disabled = true; $("#status").innerHTML = '<span class="spinner"></span>' + (MI && MI.version === 3 ? "Extracting frames, running CLIP + MiniLM and 6 models…" : "Extracting frames, transcribing speech, running CLIP + CLAP and 5 models…");
   try {
     const r = await fetch("/api/analyze", { method: "POST", body: fd });
     const d = await r.json(); if (!r.ok) throw new Error(d.detail || "Failed");
@@ -60,8 +60,10 @@ function render(d) {
   gauge(d.fake_probability, d.threshold);
   const votes = Object.values(d.model_probs).filter(p => p >= d.threshold).length;
   const cons = d.consistency.clip_sim_mean;
+  const modeTxt = d.mode === "video_only" ? ' <b>Video-only mode</b> (no caption used).' : "";
+  const consTxt = cons !== undefined ? ` Caption-video consistency is <b>${cons > 0.27 ? "high" : cons > 0.22 ? "moderate" : "low"}</b> (${cons.toFixed(3)}).` : "";
   $("#summary").innerHTML = `${votes} of ${Object.keys(d.model_probs).length} models lean <b class="fake">fake</b>. ` +
-    `Confidence ${(d.confidence * 100).toFixed(0)}%. Caption-video consistency is <b>${cons > 0.27 ? "high" : cons > 0.22 ? "moderate" : "low"}</b> (${cons.toFixed(3)}).`;
+    `Confidence ${(d.confidence * 100).toFixed(0)}%.` + consTxt + modeTxt;
 
   const mnames = Object.keys(d.model_probs);
   mk("#modelChart", { type: "bar", data: { labels: mnames.map(n => `${MODEL_NAMES[n] || n} (w=${(d.weights[n] || 0).toFixed(2)})`),
@@ -75,26 +77,42 @@ function render(d) {
   $("#signals").innerHTML = "<tr><th>Signal</th><th>Pushes toward</th></tr>" + d.top_signals.map(([k, v]) =>
     `<tr><td>${pretty(k)}</td><td class="${v > 0 ? "fake" : "real"}">${v > 0 ? "FAKE" : "REAL"} (${v > 0 ? "+" : ""}${v.toFixed(3)})</td></tr>`).join("");
 
-  const maxA = Math.max(...d.frames.map(f => f.attention));
+  const pct = v => Math.min(100, Math.max(0, (v - 0.12) / 0.22 * 100));
   $("#frames").innerHTML = d.frames.map((f, i) => `<div class="frame"><img src="${f.img}"/><div class="m">Frame ${i + 1}
-    <div>Consistency ${f.consistency.toFixed(3)}</div><div class="bar"><i style="width:${Math.min(100, Math.max(0, (f.consistency - 0.12) / 0.22 * 100))}%;background:${ACC}"></i></div>
-    <div>Attention ${(f.attention * 100).toFixed(0)}%</div><div class="bar"><i style="width:${f.attention / maxA * 100}%;background:#9b6cff"></i></div></div></div>`).join("");
+    ${f.consistency != null ? `<div>Caption match ${f.consistency.toFixed(3)}</div><div class="bar"><i style="width:${pct(f.consistency)}%;background:${ACC}"></i></div>` : ""}
+    ${f.speech_consistency != null ? `<div>Speech match ${f.speech_consistency.toFixed(3)}</div><div class="bar"><i style="width:${pct(f.speech_consistency)}%;background:#9b6cff"></i></div>` : ""}
+    ${f.speech_consistency === undefined && f.attention != null ? `<div>Attention ${(f.attention * 100).toFixed(0)}%</div>` : ""}</div></div>`).join("");
+  $("#transcript").textContent = d.transcript ? `"${d.transcript}"` : (d.version === 2 ? "No clear speech detected (music / silence)." : "");
+  $("#transcriptCard").hidden = d.version !== 2;
+  if (d.audio_stats) table("#astats", d.audio_stats); else $("#astats").innerHTML = "";
 
   table("#vstats", d.video_stats); table("#tstats", d.text_stats); table("#cstats", d.consistency);
 }
 
 // ---------- model card
-fetch("/api/model-info").then(r => r.json()).then(m => {
-  if (!m.test_metrics) return;
-  const rows = Object.entries(m.test_metrics);
+let MI = null;
+function modelCard(mode) {
+  const m = MI; if (!m || !m.test_metrics) return;
+  const tm = m.version >= 2 ? m.test_metrics[mode] : m.test_metrics;
+  const cmx = m.version >= 2 ? m.confusion_matrix_test[mode] : m.confusion_matrix_test;
+  const rows = Object.entries(tm);
   $("#metricsTable").innerHTML = "<tr><th>Model</th><th>Acc</th><th>Macro-F1</th><th>AUC</th></tr>" + rows.map(([n, r]) =>
     `<tr class="${n === "ENSEMBLE" ? "best" : ""}"><td>${MODEL_NAMES[n] || n}</td><td>${(r.accuracy * 100).toFixed(1)}%</td><td>${(r.macro_f1 * 100).toFixed(1)}%</td><td>${r.auc.toFixed(3)}</td></tr>`).join("") +
     `<tr><td colspan="4" style="text-align:left;color:#8b97ab">Train ${m.n_train} · Val ${m.n_val} · Test ${m.n_test} videos</td></tr>`;
-  const c = m.confusion_matrix_test;
+  const c = cmx;
   $("#cm").innerHTML = `<div class="h"></div><div class="h">Pred REAL</div><div class="h">Pred FAKE</div>
     <div class="h">True REAL</div><div class="ok">${c[0][0]}</div><div class="bad">${c[0][1]}</div>
     <div class="h">True FAKE</div><div class="bad">${c[1][0]}</div><div class="ok">${c[1][1]}</div>`;
   const g = Object.entries(m.feature_group_importance_pct);
-  mk("#groupChart", { type: "doughnut", data: { labels: g.map(x => x[0]), datasets: [{ data: g.map(x => x[1]), backgroundColor: ["#6c8cff", "#9b6cff", "#2ed39a", "#ffb547", "#ff5470", "#5ad1ff"] }] },
+  mk("#groupChart", { type: "doughnut", data: { labels: g.map(x => x[0]), datasets: [{ data: g.map(x => x[1]), backgroundColor: ["#6c8cff", "#9b6cff", "#2ed39a", "#ffb547", "#ff5470", "#5ad1ff", "#c8d26b", "#ff8fd1", "#8b97ab"] }] },
     options: { plugins: { legend: { position: "right" } } } });
+}
+fetch("/api/model-info").then(r => r.json()).then(m => {
+  MI = m; if (m.version < 2) $("#modeSel").hidden = true; modelCard("full");
+  if (m.version !== 3) document.querySelectorAll(".v1plus").forEach(e => e.hidden = true);
+  if (m.version === 3) {
+    document.querySelectorAll(".v2only").forEach(e => e.hidden = true);
+    const b = document.querySelector(".brand small"); if (b) b.textContent = "Video + Text Fake News Detector · v1+ (video-only mode when caption is empty)";
+  }
 });
+$("#modeSel").onchange = e => modelCard(e.target.value);

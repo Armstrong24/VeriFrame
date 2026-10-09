@@ -4,6 +4,13 @@ Detects fake/misleading short news videos by combining **what the video shows** 
 and checking whether the two agree. Trained on **FakeTT** (Bu et al., *FakingRecipe*, ACM MM 2024): English TikTok
 videos fact-checked against Snopes.
 
+
+## VeriFrame v1+ (default)
+Same 1,299 videos and features as v1, better training, plus a video-only mode (leave the caption empty).
+Test (166 videos): 86.1% accuracy, 83.6% macro-F1, 0.936 AUC; video-only 80.1% / 76.5% / 0.874.
+Rebuild it: `python scripts/08_build_v1plus.py` (about 3 minutes on CPU). Details: `CHANGELOG_v1plus.md`.
+Switch models: set `VERIFRAME_MODEL=v2` or `v1` before running uvicorn.
+
 ## Project layout
 ```
 data/fakett_meta.jsonl        FakeTT labels, captions, temporal train/val/test split (1,992 videos)
@@ -53,6 +60,35 @@ python scripts/01_download_videos.py
 python scripts/02_extract_features.py
 python scripts/03_train.py
 ```
+
+## v2 upgrade: audio, speech and video-only mode
+See `CHANGELOG_v2.md` for every change and the full results table.
+
+**Run v2 in VS Code (Windows / Mac / Linux)**
+1. Unzip, open the folder in VS Code, then open a terminal (Ctrl + `).
+2. Create the environment (one time):
+   ```bash
+   python -m venv .venv
+   # Windows: .venv\Scripts\activate      Mac/Linux: source .venv/bin/activate
+   pip install -r requirements.txt
+   ```
+3. Start the dashboard:
+   ```bash
+   uvicorn app.server:app --reload
+   ```
+   Open http://127.0.0.1:8000. The first start downloads Whisper base.en and CLAP (about 1 GB, once).
+   Expect ~30 s to load and ~15-50 s per video on a laptop CPU; about 3 GB RAM, fine on 8 GB.
+4. Leave the caption box empty to use video-only mode (no text at all).
+
+**Reproduce the results (optional; models are already trained)**
+`data/features.npz` and `data/audio_features.npz` are included, so no videos are needed:
+```bash
+python scripts/05_train_v2.py --budget 900     # re-run until it prints "saved"; resumable
+python scripts/06_experiments.py              # ablations, CIs, figures -> results/
+```
+Re-extracting audio needs the videos in `videos/` (`python scripts/04_extract_audio.py --budget 500`).
+
+**Rollback to v1:** rename `models/v2` and restart.
 
 ## Method
 **Video branch:** 8 uniformly sampled frames → CLIP ViT-B/32 image embeddings (mean, std, and the full sequence

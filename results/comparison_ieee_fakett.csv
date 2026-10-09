@@ -1,0 +1,8 @@
+method,venue,year,source_of_numbers,eval_protocol,accuracy,macro_f1,notes
+TikTec (Shang et al.),IEEE BigData,2021,"re-run on FakeTT reported in HFN (GLOBECOM 2025)",HFN protocol,66.22,65.08,
+SVFEND (Qi et al.),AAAI,2023,"as quoted in HFN (GLOBECOM 2025)",HFN protocol,77.14,75.63,not an IEEE paper; standard baseline
+FakingRecipe (Bu et al.),ACM MM,2024,"FakingRecipe Table 2",official temporal split (full 1992 videos),79.15,77.74,not an IEEE paper; dataset authors
+HFN (Li et al.),IEEE GLOBECOM,2025,"HFN paper (arXiv 2509.15578)",random 6-fold x 3 runs,81.73,79.85,video-only macro-F1 75.47
+VeriFrame v1 (ours),-,2026,this work,v1 temporal split (1299 videos; test 166),84.3,82.0,
+VeriFrame v1+ (ours),-,2026,this work,v1 temporal split (1299 videos; test 166),86.1,83.6,AUC 0.936
+VeriFrame v1+ video-only (ours),-,2026,this work,v1 temporal split (1299 videos; test 166),80.1,76.5,no caption used; AUC 0.874
